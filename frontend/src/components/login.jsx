@@ -17,7 +17,7 @@ export default function LoginForm() {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5001/api/auth/login',
+            const response = await axios.post('https://mindbridge-gu12.onrender.com/api/auth/login',
                 { email, password },
                 { withCredentials: true }
             );

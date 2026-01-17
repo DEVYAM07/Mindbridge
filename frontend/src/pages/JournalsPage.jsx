@@ -19,7 +19,7 @@ export default function JournalsPage() {
 
     const fetchJournals = async () => {
         try {
-            const res = await axios.get('http://localhost:5001/api/journals', { withCredentials: true });
+            const res = await axios.get('https://mindbridge-gu12.onrender.com/api/journals', { withCredentials: true });
             setJournals(res.data.journals);
         } catch (err) {
             console.error("Failed to fetch journals");
@@ -32,7 +32,7 @@ export default function JournalsPage() {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const res = await axios.post('http://localhost:5001/api/journals', formData, { withCredentials: true });
+            const res = await axios.post('https://mindbridge-gu12.onrender.com/api/journals', formData, { withCredentials: true });
             if (res.data.success) {
                 setJournals([res.data.journal, ...journals]);
                 setFormData({ title: '', content: '', visibility: 'private' });
@@ -48,7 +48,7 @@ export default function JournalsPage() {
     const deleteEntry = async (id) => {
         if (!window.confirm("Delete this memory?")) return;
         try {
-            await axios.delete(`http://localhost:5001/api/journals/${id}`, { withCredentials: true });
+            await axios.delete(`https://mindbridge-gu12.onrender.com/api/journals/${id}`, { withCredentials: true });
             setJournals(journals.filter(j => j._id !== id));
         } catch (err) {
             alert("Failed to delete.");

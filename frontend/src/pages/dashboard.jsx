@@ -40,7 +40,7 @@ export default function Dashboard() {
         const fetchDashboardData = async () => {
             try {
                 // 1. Fetch Social Notifications
-                const resNotif = await axios.get('http://localhost:5001/api/notifications', { withCredentials: true });
+                const resNotif = await axios.get('https://mindbridge-gu12.onrender.com/api/notifications', { withCredentials: true });
                 const fetchedNotifs = resNotif.data.notifications;
                 setNotifications(fetchedNotifs);
 
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 }
 
                 // 2. Fetch Admin Join Requests
-                const resAdmin = await axios.get('http://localhost:5001/api/circles/admin/pending-requests', { withCredentials: true });
+                const resAdmin = await axios.get('https://mindbridge-gu12.onrender.com/api/circles/admin/pending-requests', { withCredentials: true });
                 const fetchedRequests = resAdmin.data.requests || [];
                 setAdminRequests(fetchedRequests);
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
                 }
 
                 // 3. Fetch Recent Journals
-                const resJournals = await axios.get('http://localhost:5001/api/journals/recent', { withCredentials: true });
+                const resJournals = await axios.get('https://mindbridge-gu12.onrender.com/api/journals/recent', { withCredentials: true });
                 setRecentJournals(resJournals.data.journals || []);
 
             } catch (err) {
@@ -124,7 +124,7 @@ export default function Dashboard() {
     // --- ADMIN ACTION (APPROVE/REJECT) ---
     const handleRequestAction = async (circleId, targetUserId, status) => {
         try {
-            await axios.post(`http://localhost:5001/api/circles/${circleId}/request-action`, {
+            await axios.post(`https://mindbridge-gu12.onrender.com/api/circles/${circleId}/request-action`, {
                 targetUserId,
                 status
             }, { withCredentials: true });
@@ -140,7 +140,7 @@ export default function Dashboard() {
     const handleFinalSubmit = async () => {
         if (!selectedMood) return;
         try {
-            await axios.post('http://localhost:5001/api/mood/sync',
+            await axios.post('https://mindbridge-gu12.onrender.com/api/mood/sync',
                 { mood: selectedMood, visibility: visibility },
                 { withCredentials: true }
             );

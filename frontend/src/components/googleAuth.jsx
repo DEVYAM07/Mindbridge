@@ -12,7 +12,7 @@ export default function GoogleAuth() {
     const handleSuccess = async (Response) => {
         try {
             // 1. Hold the response in a variable
-            const response = await axios.post('http://localhost:5001/api/auth/google',
+            const response = await axios.post('https://mindbridge-gu12.onrender.com/api/auth/google',
                 { tokenId: Response.credential },
                 { withCredentials: true }
             );

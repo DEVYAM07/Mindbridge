@@ -22,7 +22,7 @@ function App() {
     const checkAuth = async () => {
       try {
         // This request sends your Cookie automatically
-        const res = await axios.get('http://localhost:5001/api/auth/me', {
+        const res = await axios.get('https://mindbridge-gu12.onrender.com/api/auth/me', {
           withCredentials: true
         });
 
