@@ -26,8 +26,13 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 5001;
 
 
+const allowedOrigins = [
+    "http://localhost:3000",
+    "https://mind-bridge-psi.vercel.app"
+];
+
 app.use(cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true
 }));
 
@@ -38,7 +43,7 @@ app.use(cookieParser());
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: allowedOrigins,
         credentials: true
     }
 })
