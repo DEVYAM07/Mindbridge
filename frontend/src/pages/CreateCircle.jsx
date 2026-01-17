@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, X, Globe, Lock, Hash } from 'lucide-react';
+import { ArrowLeft, Globe, Lock, Hash } from 'lucide-react';
 import axios from 'axios';
 
 export default function CreateCircle() {
