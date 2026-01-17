@@ -33,8 +33,8 @@ router.post('/signup', async (req, res) => {
         // 4. Store token in HTTP-Only Cookie
         res.cookie('token', token, {
             httpOnly: true,     // Prevents JS from accessing the cookie
-            secure: false,
-            sameSite: 'lax',    // CSRF protection
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // CSRF protection
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -72,8 +72,8 @@ router.post('/login', async (req, res) => {
         // 4. Store token in HTTP-Only Cookie
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -131,8 +131,8 @@ router.post('/google', async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -163,8 +163,8 @@ router.post('/google', async (req, res) => {
 router.post('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         path: '/'
     }
     );
