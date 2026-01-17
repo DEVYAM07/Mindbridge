@@ -38,7 +38,7 @@ MindBridge is a comprehensive sanctuary for emotional awareness and secure socia
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/DEVYAM07/MIND-BRDGE.git
+   git clone https://github.com/DEVYAM07/Mindbridge.git
    cd mind-bridge
    ```
 
