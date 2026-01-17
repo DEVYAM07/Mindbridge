@@ -8,8 +8,6 @@ RUN npm install
 
 COPY . .
 
-ARG REACT_APP_CLIENTID
-ENV REACT_APP_CLIENTID=$REACT_APP_CLIENTID
 
 RUN npm run build
 

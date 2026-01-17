@@ -18,10 +18,7 @@ services:
       start_period: 10s
 
   frontend:
-    build:
-      context: ./frontend
-      args:
-        - REACT_APP_CLIENTID=${REACT_APP_CLIENTID}
+    build: ./frontend
     container_name: frontend
     ports:
       - "3000:80"
