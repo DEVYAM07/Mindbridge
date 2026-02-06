@@ -325,6 +325,27 @@ router.post('/:id/remove-member', authMiddleware, async (req, res) => {
     }
 });
 
+
+router.get('/user/:userId', authMiddleware, async (req, res) => {
+    try {
+        const targetUserId = req.params.userId;
+
+        // Find circles where targetUserId is in the members array
+        const circles = await Circle.find({
+            members: targetUserId
+        })
+            .select('name description memberCount visibility')
+            .sort({ memberCount: -1 });
+
+        res.status(200).json({ success: true, circles });
+
+    } catch (error) {
+        console.error("Error fetching user circles:", error);
+        res.status(500).json({ message: "Server error fetching circles" });
+    }
+});
+
+
 export default router;
 
 

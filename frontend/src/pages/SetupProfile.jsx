@@ -70,7 +70,7 @@ export default function SetupProfile() {
         try {
             let avatarUrl = "";
             if (avatarFile) {
-                const { data: config } = await axios.get('https://mindbridge-gu12.onrender.com/api/upload/get-signature', { withCredentials: true });
+                const { data: config } = await axios.get('http://localhost:5001/api/upload/get-signature', { withCredentials: true });
                 const formData = new FormData();
                 formData.append("file", avatarFile);
                 formData.append("api_key", config.apiKey);
@@ -82,7 +82,7 @@ export default function SetupProfile() {
                 avatarUrl = uploadResponse.data.secure_url;
             }
 
-            const response = await axios.patch('https://mindbridge-gu12.onrender.com/api/upload/complete-setup', {
+            const response = await axios.patch('http://localhost:5001/api/upload/complete-setup', {
                 displayName,
                 bio,
                 interests,

@@ -7,7 +7,7 @@ import {
     ShieldCheck, Check, Trash2, ArrowRight, FileText
 } from 'lucide-react';
 import axios from 'axios';
-import { socket } from '../socket';
+import { socket, connectSocket } from '../socket';
 import LogoutButton from '../components/LogoutButton';
 
 export default function Dashboard() {
@@ -40,7 +40,7 @@ export default function Dashboard() {
         const fetchDashboardData = async () => {
             try {
                 // 1. Fetch Social Notifications
-                const resNotif = await axios.get('https://mindbridge-gu12.onrender.com/api/notifications', { withCredentials: true });
+                const resNotif = await axios.get('http://localhost:5001/api/notifications', { withCredentials: true });
                 const fetchedNotifs = resNotif.data.notifications;
                 setNotifications(fetchedNotifs);
 
@@ -54,7 +54,7 @@ export default function Dashboard() {
                 }
 
                 // 2. Fetch Admin Join Requests
-                const resAdmin = await axios.get('https://mindbridge-gu12.onrender.com/api/circles/admin/pending-requests', { withCredentials: true });
+                const resAdmin = await axios.get('http://localhost:5001/api/circles/admin/pending-requests', { withCredentials: true });
                 const fetchedRequests = resAdmin.data.requests || [];
                 setAdminRequests(fetchedRequests);
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
                 }
 
                 // 3. Fetch Recent Journals
-                const resJournals = await axios.get('https://mindbridge-gu12.onrender.com/api/journals/recent', { withCredentials: true });
+                const resJournals = await axios.get('http://localhost:5001/api/journals/recent', { withCredentials: true });
                 setRecentJournals(resJournals.data.journals || []);
 
             } catch (err) {
@@ -76,6 +76,7 @@ export default function Dashboard() {
         };
 
         if (user?._id) {
+            connectSocket();
             fetchDashboardData();
             socket.emit("join_user_room", user._id);
 
@@ -124,7 +125,7 @@ export default function Dashboard() {
     // --- ADMIN ACTION (APPROVE/REJECT) ---
     const handleRequestAction = async (circleId, targetUserId, status) => {
         try {
-            await axios.post(`https://mindbridge-gu12.onrender.com/api/circles/${circleId}/request-action`, {
+            await axios.post(`http://localhost:5001/api/circles/${circleId}/request-action`, {
                 targetUserId,
                 status
             }, { withCredentials: true });
@@ -140,7 +141,7 @@ export default function Dashboard() {
     const handleFinalSubmit = async () => {
         if (!selectedMood) return;
         try {
-            await axios.post('https://mindbridge-gu12.onrender.com/api/mood/sync',
+            await axios.post('http://localhost:5001/api/mood/sync',
                 { mood: selectedMood, visibility: visibility },
                 { withCredentials: true }
             );
@@ -308,6 +309,10 @@ export default function Dashboard() {
                     <button onClick={() => navigate('/mood-log')} className="flex-1 min-w-[140px] bg-white p-5 rounded-[2.2rem] shadow-sm border border-gray-100 flex flex-col items-center gap-3 hover:shadow-md hover:-translate-y-1 transition-all group">
                         <div className="bg-green-50 p-4 rounded-2xl group-hover:scale-110 transition-transform"><Smile className="text-green-500" /></div>
                         <span className="font-bold text-gray-700">Mood Log</span>
+                    </button>
+                    <button onClick={() => navigate('/users')} className="flex-1 min-w-[140px] bg-white p-5 rounded-[2.2rem] shadow-sm border border-gray-100 flex flex-col items-center gap-3 hover:shadow-md hover:-translate-y-1 transition-all group">
+                        <div className="bg-purple-50 p-4 rounded-2xl group-hover:scale-110 transition-transform"><Users className="text-purple-500" /></div>
+                        <span className="font-bold text-gray-700">Directory</span>
                     </button>
                 </div>
 

@@ -26,7 +26,7 @@ export default function CreateCircle() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('https://mindbridge-gu12.onrender.com/api/circles/create', formData, { withCredentials: true });
+            const res = await axios.post('http://localhost:5001/api/circles/create', formData, { withCredentials: true });
             if (res.data.success) {
                 navigate('/circles'); // Go back to the list
             }

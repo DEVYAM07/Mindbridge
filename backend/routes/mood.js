@@ -3,7 +3,7 @@ import Mood from '../models/mood.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose'; // 1. Proper ES Module import
-
+import Circle from '../models/Circle.js';
 const router = express.Router();
 dotenv.config();
 
@@ -94,5 +94,41 @@ router.get('/history', authMiddleware, async (req, res) => { // Use authMiddlewa
         res.status(500).json({ error: err.message });
     }
 });
+
+// Get specific user's public mood history
+router.get('/user/:userId', authMiddleware, async (req, res) => {
+    try {
+        const targetUserId = req.params.userId;
+        const currentUserId = req.userid;
+
+        // If viewing own profile, return all history
+        if (targetUserId === currentUserId) {
+            const history = await Mood.find({ userId: targetUserId }).sort({ _id: -1 }).limit(30);
+            return res.status(200).json({ success: true, history });
+        }
+
+        // Check if users share any circle
+        const sharedCircles = await Circle.exists({
+            members: { $all: [currentUserId, targetUserId] }
+        });
+
+        const query = {
+            userId: targetUserId,
+            $or: [
+                { visibility: 'public' },
+                ...(sharedCircles ? [{ visibility: 'circles' }] : [])
+            ]
+        };
+
+        const history = await Mood.find(query).sort({ _id: -1 }).limit(30);
+
+        res.status(200).json({ success: true, history });
+
+    } catch (error) {
+        console.error("Error fetching user mood history:", error);
+        res.status(500).json({ message: "Server error fetching mood history" });
+    }
+});
+
 
 export default router;

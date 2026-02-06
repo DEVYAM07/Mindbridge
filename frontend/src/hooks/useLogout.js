@@ -11,7 +11,7 @@ export const useLogout = () => {
     const handleLogout = async () => {
         try {
             // 1. Backend: Clear the HTTP-only cookie
-            await axios.post('https://mindbridge-gu12.onrender.com/api/auth/logout', {}, { withCredentials: true });
+            await axios.post('http://localhost:5001/api/auth/logout', {}, { withCredentials: true });
         } catch (err) {
             console.error("Backend logout failed, clearing local state anyway:", err);
         } finally {

@@ -12,6 +12,8 @@ import CreateCircle from './pages/CreateCircle';
 import Circles from './pages/Circles';
 import CirclePage from './pages/CirclePage';
 import JournalsPage from './pages/JournalsPage';
+import UserDirectory from './pages/UserDirectory';
+import UserPage from './pages/userPage';
 
 
 function App() {
@@ -22,7 +24,7 @@ function App() {
     const checkAuth = async () => {
       try {
         // This request sends your Cookie automatically
-        const res = await axios.get('https://mindbridge-gu12.onrender.com/api/auth/me', {
+        const res = await axios.get('http://localhost:5001/api/auth/me', {
           withCredentials: true
         });
 
@@ -72,6 +74,9 @@ function App() {
         <Route path="/circles/:id" element={<CirclePage />} />
 
         <Route path="/journals" element={<JournalsPage />} />
+        <Route path="/users" element={<UserDirectory />} />
+
+        <Route path="/users/:id" element={<UserPage />} />
 
       </Routes>
 

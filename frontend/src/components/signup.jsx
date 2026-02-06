@@ -15,7 +15,7 @@ export default function SignupForm() {
         setError('');
 
         try {
-            await axios.post('https://mindbridge-gu12.onrender.com/api/auth/signup',
+            await axios.post('http://localhost:5001/api/auth/signup',
                 { name, email, password },
                 { withCredentials: true }
             );

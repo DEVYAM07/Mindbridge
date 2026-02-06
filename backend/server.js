@@ -13,6 +13,8 @@ import http from "http";
 import { Server } from "socket.io";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import journalRoutes from "./routes/journal.js";
+import userRoutes from "./routes/users.js";
+
 
 
 
@@ -48,6 +50,7 @@ const io = new Server(server, {
     }
 })
 
+
 app.set("socketio", io);
 
 
@@ -68,6 +71,8 @@ app.use('/api/posts', postRoutes);
 app.use('/api/notifications', notificationRoutes);
 
 app.use('/api/journals', journalRoutes);
+
+app.use('/api/users', userRoutes);
 
 app.get("/", (req, res) => {
     res.send("Mindful Server is floating... 🍃");

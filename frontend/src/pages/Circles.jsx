@@ -23,7 +23,7 @@ export default function Circles() {
     useEffect(() => {
         const fetchCircles = async () => {
             try {
-                const res = await axios.get('https://mindbridge-gu12.onrender.com/api/circles/all', { withCredentials: true });
+                const res = await axios.get('http://localhost:5001/api/circles/all', { withCredentials: true });
                 setCircles(res.data.circles);
             } catch (err) {
                 console.error("Error fetching circles:", err);
@@ -43,7 +43,7 @@ export default function Circles() {
 
     const handleJoinAction = async (circleId, visibility) => {
         try {
-            const res = await axios.post(`https://mindbridge-gu12.onrender.com/api/circles/join/${circleId}`, {}, { withCredentials: true });
+            const res = await axios.post(`http://localhost:5001/api/circles/join/${circleId}`, {}, { withCredentials: true });
 
             if (res.data.status === 'joined') {
                 // Public Circle: Move to the circle page immediately

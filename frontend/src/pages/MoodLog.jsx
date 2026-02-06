@@ -11,7 +11,7 @@ export default function MoodLog() {
     useEffect(() => {
         const fetchMoodData = async () => {
             try {
-                const res = await axios.get('https://mindbridge-gu12.onrender.com/api/mood/history', { withCredentials: true });
+                const res = await axios.get('http://localhost:5001/api/mood/history', { withCredentials: true });
                 if (res.data.success) {
                     setData({
                         history: res.data.history,

@@ -1,5 +1,6 @@
 import express from 'express';
 import Journal from '../models/Journal.js';
+import Circle from '../models/Circle.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 
 
@@ -105,6 +106,44 @@ router.get('/recent', authMiddleware, async (req, res) => {
     }
 
 }
+
+
 )
+
+// Get specific user's journals (Profile View) with Privacy Logic
+router.get('/user/:userId', authMiddleware, async (req, res) => {
+    try {
+        const targetUserId = req.params.userId;
+        const currentUserId = req.userid;
+
+        // If viewing own profile, return all
+        if (targetUserId === currentUserId) {
+            const journals = await Journal.find({ userId: targetUserId }).sort({ createdAt: -1 });
+            return res.status(200).json({ success: true, journals });
+        }
+
+        // Check if users share any circle
+        const sharedCircles = await Circle.exists({
+            members: { $all: [currentUserId, targetUserId] }
+        });
+
+        const query = {
+            userId: targetUserId,
+            $or: [
+                { visibility: 'public' },
+                ...(sharedCircles ? [{ visibility: 'circles' }] : [])
+            ]
+        };
+
+        const journals = await Journal.find(query).sort({ createdAt: -1 });
+
+        res.status(200).json({ success: true, journals });
+
+    } catch (error) {
+        console.error("Error fetching user journals:", error);
+        res.status(500).json({ message: "Server error fetching journals" });
+    }
+});
+
 
 export default router;
