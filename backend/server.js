@@ -29,8 +29,8 @@ const PORT = process.env.PORT || 5001;
 
 
 const allowedOrigins = [
-    "http://localhost:3000",
-    "https://mind-bridge-psi.vercel.app"
+    "https://mind-bridge-psi.vercel.app",
+    "http://localhost:3000"
 ];
 
 app.use(cors({

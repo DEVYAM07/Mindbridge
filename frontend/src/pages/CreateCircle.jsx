@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Globe, Lock, Hash } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 
 export default function CreateCircle() {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function CreateCircle() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5001/api/circles/create', formData, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/circles/create`, formData, { withCredentials: true });
             if (res.data.success) {
                 navigate('/circles'); // Go back to the list
             }

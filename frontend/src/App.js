@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { API_BASE_URL } from './apiConfig';
 import { login } from './store/slices/authSlice';
 
 import AuthContainer from './pages/auth';
@@ -24,7 +25,7 @@ function App() {
     const checkAuth = async () => {
       try {
         // This request sends your Cookie automatically
-        const res = await axios.get('http://localhost:5001/api/auth/me', {
+        const res = await axios.get(`${API_BASE_URL}/api/auth/me`, {
           withCredentials: true
         });
 

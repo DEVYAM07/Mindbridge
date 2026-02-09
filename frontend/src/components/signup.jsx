@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 import { User, Mail, Lock, ArrowRight } from 'lucide-react';
 
 export default function SignupForm() {
@@ -15,7 +16,7 @@ export default function SignupForm() {
         setError('');
 
         try {
-            await axios.post('http://localhost:5001/api/auth/signup',
+            await axios.post(`${API_BASE_URL}/api/auth/signup`,
                 { name, email, password },
                 { withCredentials: true }
             );

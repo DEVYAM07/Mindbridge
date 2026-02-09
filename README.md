@@ -51,7 +51,7 @@ MindBridge is a comprehensive sanctuary for emotional awareness and secure socia
    ```bash
    docker-compose up --build
    ```
-   The application will be available at `http://localhost:3000`.
+   The application will be available at `https://mind-bridge-psi.vercel.app`.
 
 ## 📄 License
 

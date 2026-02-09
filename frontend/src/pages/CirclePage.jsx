@@ -7,6 +7,7 @@ import {
     ShieldCheck, UserMinus
 } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 import { useSelector } from 'react-redux';
 
 export default function CirclePage() {
@@ -33,10 +34,10 @@ export default function CirclePage() {
     // --- 1. DATA FETCHING (Stabilized with useCallback) ---
     const fetchCircleData = useCallback(async () => {
         try {
-            const circleRes = await axios.get(`http://localhost:5001/api/circles/${id}`, { withCredentials: true });
+            const circleRes = await axios.get(`${API_BASE_URL}/api/circles/${id}`, { withCredentials: true });
             setCircle(circleRes.data.circle);
 
-            const postsRes = await axios.get(`http://localhost:5001/api/posts/circle/${id}`, { withCredentials: true });
+            const postsRes = await axios.get(`${API_BASE_URL}/api/posts/circle/${id}`, { withCredentials: true });
             setPosts(postsRes.data.posts);
         } catch (err) {
             console.error("Error loading circle data:", err);
@@ -82,7 +83,7 @@ export default function CirclePage() {
     // --- 4. MEMBER MANAGEMENT HANDLERS ---
     const handlePromote = async (targetUserId) => {
         try {
-            const res = await axios.post(`http://localhost:5001/api/circles/${id}/promote`,
+            const res = await axios.post(`${API_BASE_URL}/api/circles/${id}/promote`,
                 { targetUserId },
                 { withCredentials: true }
             );
@@ -97,7 +98,7 @@ export default function CirclePage() {
     const handleRemoveMember = async (targetUserId) => {
         if (!window.confirm("Are you sure you want to remove this member?")) return;
         try {
-            const res = await axios.post(`http://localhost:5001/api/circles/${id}/remove-member`,
+            const res = await axios.post(`${API_BASE_URL}/api/circles/${id}/remove-member`,
                 { targetUserId },
                 { withCredentials: true }
             );
@@ -116,10 +117,10 @@ export default function CirclePage() {
         setIsSubmitting(true);
         try {
             if (editingPostId) {
-                const res = await axios.put(`http://localhost:5001/api/posts/${editingPostId}`, newPostData, { withCredentials: true });
+                const res = await axios.put(`${API_BASE_URL}/api/posts/${editingPostId}`, newPostData, { withCredentials: true });
                 if (res.data.success) setPosts(prev => prev.map(p => p._id === editingPostId ? res.data.post : p));
             } else {
-                const res = await axios.post(`http://localhost:5001/api/posts`, { ...newPostData, circleId: id }, { withCredentials: true });
+                const res = await axios.post(`${API_BASE_URL}/api/posts`, { ...newPostData, circleId: id }, { withCredentials: true });
                 if (res.data.success) {
                     setPosts(prev => [res.data.post, ...prev]);
                     socket.emit("new_post", { circleId: id, post: res.data.post });
@@ -138,7 +139,7 @@ export default function CirclePage() {
         if (!commentText.trim()) return;
         setIsCommenting(true);
         try {
-            const res = await axios.post(`http://localhost:5001/api/posts/${activeCommentPostId}/comment`, { text: commentText }, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/posts/${activeCommentPostId}/comment`, { text: commentText }, { withCredentials: true });
             if (res.data.success) {
                 setPosts(prev => prev.map(p => p._id === activeCommentPostId ? { ...p, comments: res.data.comments } : p));
                 setCommentText("");
@@ -153,7 +154,7 @@ export default function CirclePage() {
     const handleDeletePost = async (postId) => {
         if (!window.confirm("Delete post permanently?")) return;
         try {
-            const res = await axios.delete(`http://localhost:5001/api/posts/${postId}`, { withCredentials: true });
+            const res = await axios.delete(`${API_BASE_URL}/api/posts/${postId}`, { withCredentials: true });
             if (res.data.success) setPosts(prev => prev.filter(p => p._id !== postId));
         } catch (err) {
             alert("Failed to delete post.");
@@ -175,7 +176,7 @@ export default function CirclePage() {
     const handleLeave = async () => {
         if (!window.confirm("Are you sure you want to leave this circle?")) return;
         try {
-            const res = await axios.post(`http://localhost:5001/api/circles/${id}/leave`, {}, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/circles/${id}/leave`, {}, { withCredentials: true });
             if (res.data.success) {
                 socket.emit("leave_circle", id);
                 navigate('/circles');

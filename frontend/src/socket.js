@@ -1,9 +1,10 @@
 import { io } from "socket.io-client";
+import { API_BASE_URL } from "./apiConfig";
 
 
 // Create the socket instance with auto-connect disabled initially
 // This gives you control over when the connection starts
-export const socket = io("http://localhost:5001", {
+export const socket = io(API_BASE_URL, {
     withCredentials: true,
     autoConnect: false,
 });

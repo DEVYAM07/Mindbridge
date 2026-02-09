@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, User, ArrowLeft, Users, Loader2, AlertCircle } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 
 const INTEREST_FILTERS = [
     "Anxiety",
@@ -29,7 +30,7 @@ export default function UserDirectory() {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await axios.get(`http://localhost:5001/api/users`, {
+                const response = await axios.get(`${API_BASE_URL}/api/users`, {
                     withCredentials: true
                 });
                 setAllUsers(response.data.users);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Smile, Meh, Frown, Calendar, Lock, Globe, UserCircle, TrendingUp } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 
 export default function MoodLog() {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ export default function MoodLog() {
     useEffect(() => {
         const fetchMoodData = async () => {
             try {
-                const res = await axios.get('http://localhost:5001/api/mood/history', { withCredentials: true });
+                const res = await axios.get(`${API_BASE_URL}/api/mood/history`, { withCredentials: true });
                 if (res.data.success) {
                     setData({
                         history: res.data.history,

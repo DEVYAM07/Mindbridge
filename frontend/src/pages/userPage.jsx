@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { User, Users, BookOpen, Activity, ArrowLeft, Loader2, Lock, Globe } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 
 export default function UserPage() {
     const { id } = useParams();
@@ -23,10 +24,10 @@ export default function UserPage() {
         const fetchData = async () => {
             try {
                 const [userRes, circlesRes, journalsRes, moodsRes] = await Promise.all([
-                    axios.get(`http://localhost:5001/api/users/${id}`, { withCredentials: true }),
-                    axios.get(`http://localhost:5001/api/circles/user/${id}`, { withCredentials: true }),
-                    axios.get(`http://localhost:5001/api/journals/user/${id}`, { withCredentials: true }),
-                    axios.get(`http://localhost:5001/api/mood/user/${id}`, { withCredentials: true })
+                    axios.get(`${API_BASE_URL}/api/users/${id}`, { withCredentials: true }),
+                    axios.get(`${API_BASE_URL}/api/circles/user/${id}`, { withCredentials: true }),
+                    axios.get(`${API_BASE_URL}/api/journals/user/${id}`, { withCredentials: true }),
+                    axios.get(`${API_BASE_URL}/api/mood/user/${id}`, { withCredentials: true })
                 ]);
 
                 if (userRes.data.success) setUserData(userRes.data.user);

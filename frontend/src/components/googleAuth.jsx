@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { login } from "../store/slices/authSlice";
@@ -12,7 +13,7 @@ export default function GoogleAuth() {
     const handleSuccess = async (Response) => {
         try {
             // 1. Hold the response in a variable
-            const response = await axios.post('http://localhost:5001/api/auth/google',
+            const response = await axios.post(`${API_BASE_URL}/api/auth/google`,
                 { tokenId: Response.credential },
                 { withCredentials: true }
             );

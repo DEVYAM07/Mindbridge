@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 import { Mail, Lock, ArrowRight } from 'lucide-react';
 import { login } from "../store/slices/authSlice";
 import { useDispatch } from "react-redux";
@@ -17,7 +18,7 @@ export default function LoginForm() {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5001/api/auth/login',
+            const response = await axios.post(`${API_BASE_URL}/api/auth/login`,
                 { email, password },
                 { withCredentials: true }
             );
