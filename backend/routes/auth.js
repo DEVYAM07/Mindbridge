@@ -31,7 +31,7 @@ router.post('/signup', async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         // 4. Store token in HTTP-Only Cookie
-        const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production';
+        const isProduction = process.env.NODE_ENV === 'production';
         res.cookie('token', token, {
             httpOnly: true,
             secure: isProduction,
