@@ -31,10 +31,11 @@ router.post('/signup', async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         // 4. Store token in HTTP-Only Cookie
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production';
         res.cookie('token', token, {
-            httpOnly: true,     // Prevents JS from accessing the cookie
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // CSRF protection
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -70,10 +71,11 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         // 4. Store token in HTTP-Only Cookie
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production';
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
@@ -129,10 +131,11 @@ router.post('/google', async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
+        const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production';
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: isProduction,
+            sameSite: isProduction ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
@@ -161,13 +164,13 @@ router.post('/google', async (req, res) => {
 
 
 router.post('/logout', (req, res) => {
+    const isProduction = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'Production';
     res.clearCookie('token', {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: isProduction,
+        sameSite: isProduction ? 'none' : 'lax',
         path: '/'
-    }
-    );
+    });
     res.status(200).json({ message: "Logout successful" });
 
 
