@@ -28,8 +28,13 @@ router.post('/create', authMiddleware, async (req, res) => {
     }
     catch (error) {
         console.error("Circle Creation Error:", error);
-        res.status(500).json({ message: "Error creating circle", error: error.message });
-
+        if (error.code === 11000) {
+            return res.status(400).json({
+                success: false,
+                message: "This circle name is already taken. Please try another."
+            });
+        }
+        res.status(500).json({ success: false, message: "Error creating circle", error: error.message });
     }
 
 

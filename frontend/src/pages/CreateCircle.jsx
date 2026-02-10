@@ -12,6 +12,8 @@ export default function CreateCircle() {
         tags: [],
         visibility: 'public'
     });
+    const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const availableTags = ["Anxiety", "Productivity", "Mindfulness", "Sleep Quality", "Stress Management", "Focus", "Self-Care", "Social Wellness", "Emotional Balance"];
 
@@ -26,6 +28,8 @@ export default function CreateCircle() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setIsSubmitting(true);
         try {
             const res = await axios.post(`${API_BASE_URL}/api/circles/create`, formData, { withCredentials: true });
             if (res.data.success) {
@@ -33,7 +37,10 @@ export default function CreateCircle() {
             }
         } catch (err) {
             console.error(err);
-            alert("Error creating circle");
+            const message = err.response?.data?.message || "Error creating circle. Please try again.";
+            setError(message);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -117,11 +124,18 @@ export default function CreateCircle() {
                             </div>
                         </div>
 
+                        {error && (
+                            <div className="bg-red-50 text-red-600 p-4 rounded-2xl text-sm font-bold border border-red-100 flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                <span>⚠️</span> {error}
+                            </div>
+                        )}
+
                         <button
                             type="submit"
-                            className="w-full py-5 bg-[#509678] text-white rounded-[2rem] font-bold text-lg shadow-lg shadow-[#509678]/20 hover:bg-[#3d7a60] transition-all"
+                            disabled={isSubmitting}
+                            className="w-full py-5 bg-[#509678] text-white rounded-[2rem] font-bold text-lg shadow-lg shadow-[#509678]/20 hover:bg-[#3d7a60] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                            Create Circle
+                            {isSubmitting ? "Creating..." : "Create Circle"}
                         </button>
                     </form>
                 </div>

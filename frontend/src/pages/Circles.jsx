@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, Plus, Users, Lock, Globe } from 'lucide-react';
+import { Search, Plus, Users, Lock, Globe, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../apiConfig';
 import { useSelector } from 'react-redux';
@@ -73,6 +73,13 @@ export default function Circles() {
     return (
         <div className="min-h-screen bg-[#F8FAF9] p-6 md:p-12">
             <div className="max-w-7xl mx-auto">
+                {/* Back Button */}
+                <button
+                    onClick={() => navigate('/dashboard')}
+                    className="flex items-center gap-2 text-gray-400 hover:text-[#509678] mb-6 font-bold transition-all"
+                >
+                    <ArrowLeft size={18} /> Dashboard
+                </button>
 
                 {/* Header */}
                 <div className="flex justify-between items-center mb-10">
